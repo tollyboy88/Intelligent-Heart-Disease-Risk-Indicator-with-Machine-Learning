@@ -1,1 +1,4 @@
 # Intelligent-Heart-Disease-Risk-Indicator-with-Machine-Learning
+
+If you want to update on this project. For your information. This is link for the dataset https://www.kaggle.com/datasets/kamilpytlak/personal-key-indicators-of-heart-disease
+However, you need to work on the dataset like remove state and edit HadHeartAttack to HeartDisease and take it to the very end in the excel file
