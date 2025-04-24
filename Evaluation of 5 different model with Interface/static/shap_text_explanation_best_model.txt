@@ -1,0 +1,4 @@
+Prediction for instance 0: 0
+Feature 'HeightInMeters' (value: 1.57) contributed -0.67 to the prediction.
+Feature 'SmokerStatus_Former smoker' (value: 0.00) contributed -0.91 to the prediction.
+Feature 'LastCheckupTime_Within past year (anytime less than 12 months ago)' (value: 0.00) contributed -1.26 to the prediction.

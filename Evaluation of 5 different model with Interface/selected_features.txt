@@ -1,0 +1,20 @@
+HadAngina
+AlcoholDrinkers
+GeneralHealth_Excellent
+GeneralHealth_Fair
+GeneralHealth_Good
+GeneralHealth_Very good
+LastCheckupTime_Within past year (anytime less than 12 months ago)
+RemovedTeeth_1 to 5
+RemovedTeeth_6 or more, but not all
+RemovedTeeth_All
+RemovedTeeth_None of them
+HadDiabetes_No
+HadDiabetes_Yes
+SmokerStatus_Never smoked
+AgeCategory_Age 70 to 74
+AgeCategory_Age 75 to 79
+AgeCategory_Age 80 or older
+TetanusLast10Tdap_Yes, received tetanus shot but not sure what type
+TetanusLast10Tdap_Yes, received tetanus shot, but not Tdap
+CovidPos_Yes

@@ -1,0 +1,78 @@
+Sex
+PhysicalHealthDays
+MentalHealthDays
+PhysicalActivities
+SleepHours
+HadAngina
+HadStroke
+HadAsthma
+HadSkinCancer
+HadCOPD
+HadDepressiveDisorder
+HadKidneyDisease
+HadArthritis
+DeafOrHardOfHearing
+BlindOrVisionDifficulty
+DifficultyConcentrating
+DifficultyWalking
+DifficultyDressingBathing
+DifficultyErrands
+ChestScan
+HeightInMeters
+WeightInKilograms
+BMI
+AlcoholDrinkers
+HIVTesting
+FluVaxLast12
+PneumoVaxEver
+HighRiskLastYear
+GeneralHealth_Excellent
+GeneralHealth_Fair
+GeneralHealth_Good
+GeneralHealth_Poor
+GeneralHealth_Very good
+LastCheckupTime_5 or more years ago
+LastCheckupTime_Within past 2 years (1 year but less than 2 years ago)
+LastCheckupTime_Within past 5 years (2 years but less than 5 years ago)
+LastCheckupTime_Within past year (anytime less than 12 months ago)
+RemovedTeeth_1 to 5
+RemovedTeeth_6 or more, but not all
+RemovedTeeth_All
+RemovedTeeth_None of them
+HadDiabetes_No
+HadDiabetes_No, pre-diabetes or borderline diabetes
+HadDiabetes_Yes
+HadDiabetes_Yes, but only during pregnancy (female)
+SmokerStatus_Current smoker - now smokes every day
+SmokerStatus_Current smoker - now smokes some days
+SmokerStatus_Former smoker
+SmokerStatus_Never smoked
+ECigaretteUsage_Never used e-cigarettes in my entire life
+ECigaretteUsage_Not at all (right now)
+ECigaretteUsage_Use them every day
+ECigaretteUsage_Use them some days
+RaceEthnicityCategory_Black only, Non-Hispanic
+RaceEthnicityCategory_Hispanic
+RaceEthnicityCategory_Multiracial, Non-Hispanic
+RaceEthnicityCategory_Other race only, Non-Hispanic
+RaceEthnicityCategory_White only, Non-Hispanic
+AgeCategory_Age 18 to 24
+AgeCategory_Age 25 to 29
+AgeCategory_Age 30 to 34
+AgeCategory_Age 35 to 39
+AgeCategory_Age 40 to 44
+AgeCategory_Age 45 to 49
+AgeCategory_Age 50 to 54
+AgeCategory_Age 55 to 59
+AgeCategory_Age 60 to 64
+AgeCategory_Age 65 to 69
+AgeCategory_Age 70 to 74
+AgeCategory_Age 75 to 79
+AgeCategory_Age 80 or older
+TetanusLast10Tdap_No, did not receive any tetanus shot in the past 10 years
+TetanusLast10Tdap_Yes, received Tdap
+TetanusLast10Tdap_Yes, received tetanus shot but not sure what type
+TetanusLast10Tdap_Yes, received tetanus shot, but not Tdap
+CovidPos_No
+CovidPos_Tested positive using home test without a health professional
+CovidPos_Yes

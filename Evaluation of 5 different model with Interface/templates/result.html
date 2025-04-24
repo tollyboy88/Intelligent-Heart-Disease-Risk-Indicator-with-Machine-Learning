@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+        .result-box {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .plot {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px auto;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #dee2e6;
+        }
+        th {
+            background-color: #343a40;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Prediction Result</h1>
+
+        <div class="result-box">
+            <h4>Heart Disease Risk: 
+                <span class="text-{{ 'danger' if prediction == 1 else 'success' }}">
+                    {{ 'High' if prediction == 1 else 'Low' }}
+                </span>
+            </h4>
+            <p>Probability: <strong>{{ "%.2f"|format(probability * 100) }}%</strong></p>
+        </div>
+
+        <h2 class="mt-5">Explanation</h2>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <h5>SHAP Force Plot</h5>
+                <img src="{{ url_for('static', filename='shap_force.png') }}" alt="SHAP explanation" class="plot">
+            </div>
+            <div class="col-md-6 mb-3">
+                <h5>Global Feature Importance (SHAP)</h5>
+                <img src="{{ url_for('static', filename=shap_summary) }}" alt="SHAP Summary Plot" class="plot">
+            </div>
+        </div>
+
+        <h5>Local Explanation for First Test Instance</h5>
+        <img src="{{ url_for('static', filename=shap_force) }}" alt="SHAP Force Plot" class="plot">
+
+        <h5 class="mt-4">Text Explanation</h5>
+        <pre>{{ shap_text }}</pre>
+
+        <h5 class="mt-4">Text Explanation</h5>
+        <pre>{{ shap_text2 }}</pre>
+
+        <h2 class="mt-5">Model Performance Overview</h2>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <h5>Metrics Comparison</h5>
+                <img src="{{ url_for('static', filename=metrics_plot) }}" alt="Metrics Comparison" class="plot">
+            </div>
+            <div class="col-md-6 mb-3">
+                <h5>ROC Curves</h5>
+                <img src="{{ url_for('static', filename=roc_curves) }}" alt="ROC Curves" class="plot">
+            </div>
+            <div class="col-md-6 mb-3">
+                <h5>Fairness Analysis Curve For Gender</h5>
+                <img src="{{ url_for('static', filename=roc_sex) }}" alt="ROC Curves" class="plot">
+            </div>
+        </div>
+
+        <h3 class="mt-4">Metrics Table</h3>
+        <div class="table-container">
+            {{ metrics_html | safe }}
+        </div>
+
+        <div class="mt-4 mb-5 text-center">
+            <a href="/" class="btn btn-primary">New Prediction</a>
+        </div>
+    </div>
+</body>
+</html>

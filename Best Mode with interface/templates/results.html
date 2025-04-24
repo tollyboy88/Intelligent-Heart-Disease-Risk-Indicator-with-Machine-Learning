@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3, h4 {
+            color: #1a1a1a;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .shap-section, .fairness-section {
+            margin-top: 40px;
+        }
+
+        .plot {
+            margin-bottom: 30px;
+        }
+
+        .shap-image, .plot img {
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .metrics-table th, .metrics-table td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .metrics-table th {
+            background-color: #f0f0f0;
+        }
+
+        .plots-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        pre {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Prediction Results</h1>
+        <p><strong>Prediction:</strong> {{ 'High Risk' if prediction == 1 else 'Low Risk' }} (Probability: {{ prediction_prob | round(2) }})</p>
+        
+        <h2>SHAP Analysis</h2>
+        <div class="shap-section">
+            <h3>SHAP Explanation</h3>
+            <pre>{{ text_explanation }}</pre>
+            {% for title, plot in shap_plots.items() %}
+            <div class="plot">
+                <h3>{{ title }}</h3>
+                <img src="{{ url_for('static', filename=plot) }}" alt="{{ title }}" class="shap-image">
+            </div>
+            {% endfor %}
+        </div>
+        
+        <h2>Model Metrics</h2>
+        <table class="metrics-table">
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, value in metrics.items() %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value | round(2) if value|float else value }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <h2>Fairness Analysis</h2>
+        <div class="fairness-section">
+            <h3>ROC Curves</h3>
+            <div class="plots-section">
+                {% for title, plot in roc_plots.items() %}
+                <div class="plot">
+                    <h4>{{ title }}</h4>
+                    <img src="{{ url_for('static', filename=plot) }}" alt="{{ title }} ROC Curve">
+                </div>
+                {% endfor %}
+            </div>
+            
+            <h3>Confusion Matrices</h3>
+            <div class="plots-section">
+                {% for title, plot in fairness_plots %}
+                <div class="plot">
+                    <h4>{{ title }}</h4>
+                    <img src="{{ url_for('static', filename=plot) }}" alt="{{ title }}">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <form action="{{ url_for('download_pdf') }}" method="post">
+            <input type="hidden" name="prediction" value="{{ 'High Risk' if prediction == 1 else 'Low Risk' }}">
+            <input type="hidden" name="prediction_prob" value="{{ prediction_prob }}">
+            <input type="hidden" name="text_explanation" value="{{ text_explanation }}">
+            <input type="hidden" name="shap_plot" value="{{ shap_plots['SHAP Waterfall Plot'] }}">
+            
+            {% for key, value in roc_plots.items() %}
+            <input type="hidden" name="roc_{{ key|replace(' ', '_') }}" value="{{ value }}">
+            {% endfor %}
+            
+            {% for title, plot in fairness_plots %}
+            <input type="hidden" name="fairness_{{ title|replace(' ', '_')|replace('/', '_') }}" value="{{ plot }}">
+            {% endfor %}
+            
+            {% for key, value in metrics.items() %}
+            <input type="hidden" name="metric_{{ key|replace(' ', '_') }}" value="{{ value }}">
+            {% endfor %}
+            
+            <button type="submit" class="button">Download Result as PDF</button>
+        </form>
+            
+        
+        <a href="{{ url_for('index') }}" class="button">Back to Home</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 6px;
+        }
+        select,
+        input[type="number"],
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin-top: 30px;
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        /* If you have any other small adjustments, add them here */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Heart Disease Prediction App</h1>
+        <p>Enter your health data below to get a prediction for heart disease risk.</p>
+        <form action="{{ url_for('predict') }}" method="POST" class="input-form">
+            <!-- Sex -->
+            <label for="Sex">Sex:</label>
+            <select name="Sex" id="Sex">
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+            </select>
+
+            <!-- General Health -->
+            <label for="GeneralHealth">General Health:</label>
+            <select name="GeneralHealth" id="GeneralHealth">
+                <option value="Excellent">Excellent</option>
+                <option value="Very good">Very good</option>
+                <option value="Good">Good</option>
+                <option value="Fair">Fair</option>
+                <option value="Poor">Poor</option>
+            </select>
+
+            <!-- Physical Health Days -->
+            <label for="PhysicalHealthDays">Physical Health Days (0-30):</label>
+            <input type="number" name="PhysicalHealthDays" id="PhysicalHealthDays" min="0" max="30" required>
+
+            <!-- Mental Health Days -->
+            <label for="MentalHealthDays">Mental Health Days (0-30):</label>
+            <input type="number" name="MentalHealthDays" id="MentalHealthDays" min="0" max="30" required>
+
+            <!-- Last Checkup Time -->
+            <label for="LastCheckupTime">Last Checkup Time:</label>
+            <select name="LastCheckupTime" id="LastCheckupTime">
+                <option value="Within past year (anytime less than 12 months ago)">Within past year</option>
+                <option value="Within past 2 years (1 year but less than 2 years ago)">Within past 2 years</option>
+                <option value="Within past 5 years (2 years but less than 5 years ago)">Within past 5 years</option>
+                <option value="5 or more years ago">5 or more years ago</option>
+            </select>
+
+            <!-- Physical Activities -->
+            <label for="PhysicalActivities">Physical Activities:</label>
+            <select name="PhysicalActivities" id="PhysicalActivities">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Sleep Hours -->
+            <label for="SleepHours">Sleep Hours per Night:</label>
+            <input type="number" name="SleepHours" id="SleepHours" min="0" max="24" required>
+
+            <!-- Removed Teeth -->
+            <label for="RemovedTeeth">Removed Teeth:</label>
+            <select name="RemovedTeeth" id="RemovedTeeth">
+                <option value="None of them">None of them</option>
+                <option value="1 to 5">1 to 5</option>
+                <option value="6 or more, but not all">6 or more, but not all</option>
+                <option value="All">All</option>
+            </select>
+
+            <!-- Had Angina -->
+            <label for="HadAngina">Had Angina:</label>
+            <select name="HadAngina" id="HadAngina">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Had Stroke -->
+            <label for="HadStroke">Had Stroke:</label>
+            <select name="HadStroke" id="HadStroke">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Had Asthma -->
+            <label for="HadAsthma">Had Asthma:</label>
+            <select name="HadAsthma" id="HadAsthma">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Had Skin Cancer -->
+            <label for="HadSkinCancer">Had Skin Cancer:</label>
+            <select name="HadSkinCancer" id="HadSkinCancer">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Had COPD -->
+            <label for="HadCOPD">Had COPD:</label>
+            <select name="HadCOPD" id="HadCOPD">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Had Depressive Disorder -->
+            <label for="HadDepressiveDisorder">Had Depressive Disorder:</label>
+            <select name="HadDepressiveDisorder" id="HadDepressiveDisorder">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Had Kidney Disease -->
+            <label for="HadKidneyDisease">Had Kidney Disease:</label>
+            <select name="HadKidneyDisease" id="HadKidneyDisease">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Had Arthritis -->
+            <label for="HadArthritis">Had Arthritis:</label>
+            <select name="HadArthritis" id="HadArthritis">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Had Diabetes -->
+            <label for="HadDiabetes">Had Diabetes:</label>
+            <select name="HadDiabetes" id="HadDiabetes">
+                <option value="Yes">Yes</option>
+                <option value="No, pre-diabetes or borderline diabetes"> Borderline-Diabetes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Deaf or Hard of Hearing -->
+            <label for="DeafOrHardOfHearing">Deaf or Hard of Hearing:</label>
+            <select name="DeafOrHardOfHearing" id="DeafOrHardOfHearing">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Blind or Vision Difficulty -->
+            <label for="BlindOrVisionDifficulty">Blind or Vision Difficulty:</label>
+            <select name="BlindOrVisionDifficulty" id="BlindOrVisionDifficulty">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Difficulty Concentrating -->
+            <label for="DifficultyConcentrating">Difficulty Concentrating:</label>
+            <select name="DifficultyConcentrating" id="DifficultyConcentrating">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Difficulty Walking -->
+            <label for="DifficultyWalking">Difficulty Walking:</label>
+            <select name="DifficultyWalking" id="DifficultyWalking">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Difficulty Dressing/Bathing -->
+            <label for="DifficultyDressingBathing">Difficulty Dressing/Bathing:</label>
+            <select name="DifficultyDressingBathing" id="DifficultyDressingBathing">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Difficulty Errands -->
+            <label for="DifficultyErrands">Difficulty Errands:</label>
+            <select name="DifficultyErrands" id="DifficultyErrands">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Smoker Status -->
+            <label for="SmokerStatus">Smoker Status:</label>
+            <select name="SmokerStatus" id="SmokerStatus">
+                <option value="Never smoked">Never smoked</option>
+                <option value="Former smoker">Former smoker</option>
+                <option value="Current smoker - now smokes every day">Current smoker (every day)</option>
+                <option value="Current smoker - now smokes some days">Current smoker (some days)</option>
+            </select>
+
+            <!-- E-Cigarette Usage -->
+            <label for="ECigaretteUsage">E-Cigarette Usage:</label>
+            <select name="ECigaretteUsage" id="ECigaretteUsage">
+                <option value="Never used e-cigarettes in my entire life">Never used</option>
+                <option value="Use them every day">Use every day</option>
+                <option value="Use them some days">Use some days</option>
+                <option value="Not at all (right now)">Not at all</option>
+            </select>
+
+            <!-- Chest Scan -->
+            <label for="ChestScan">Chest Scan:</label>
+            <select name="ChestScan" id="ChestScan">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Race/Ethnicity Category -->
+            <label for="RaceEthnicityCategory">Race/Ethnicity:</label>
+            <select name="RaceEthnicityCategory" id="RaceEthnicityCategory">
+                <option value="White only, Non-Hispanic">White only, Non-Hispanic</option>
+                <option value="Black only, Non-Hispanic">Black only, Non-Hispanic</option>
+                <option value="Hispanic">Hispanic</option>
+                <option value="Other race only, Non-Hispanic">Other race only, Non-Hispanic</option>
+                <option value="Multiracial, Non-Hispanic">Multiracial, Non-Hispanic</option>
+            </select>
+
+            <!-- Age Category -->
+            <label for="AgeCategory">Age Category:</label>
+            <select name="AgeCategory" id="AgeCategory">
+                <option value="Age 18 to 24">18-24</option>
+                <option value="Age 25 to 29">25-29</option>
+                <option value="Age 30 to 34">30-34</option>
+                <option value="Age 35 to 39">35-39</option>
+                <option value="Age 40 to 44">40-44</option>
+                <option value="Age 45 to 49">45-49</option>
+                <option value="Age 50 to 54">50-54</option>
+                <option value="Age 55 to 59">55-59</option>
+                <option value="Age 60 to 64">60-64</option>
+                <option value="Age 65 to 69">65-69</option>
+                <option value="Age 70 to 74">70-74</option>
+                <option value="Age 75 to 79">75-79</option>
+                <option value="Age 80 or older">80 or older</option>
+            </select>
+
+            <!-- Height in Meters -->
+            <label for="HeightInMeters">Height (in meters):</label>
+            <input type="number" name="HeightInMeters" id="HeightInMeters" step="0.01" min="0" required>
+
+            <!-- Weight in Kilograms -->
+            <label for="WeightInKilograms">Weight (in kilograms):</label>
+            <input type="number" name="WeightInKilograms" id="WeightInKilograms" step="0.01" min="0" required>
+
+            <!-- BMI -->
+            <label for="BMI">BMI:</label>
+            <input type="number" name="BMI" id="BMI" step="0.01" min="0" required>
+
+            <!-- Alcohol Drinkers -->
+            <label for="AlcoholDrinkers">Alcohol Drinkers:</label>
+            <select name="AlcoholDrinkers" id="AlcoholDrinkers">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- HIV Testing -->
+            <label for="HIVTesting">HIV Testing:</label>
+            <select name="HIVTesting" id="HIVTesting">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Flu Vaccine Last 12 Months -->
+            <label for="FluVaxLast12">Flu Vaccine Last 12 Months:</label>
+            <select name="FluVaxLast12" id="FluVaxLast12">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Pneumonia Vaccine Ever -->
+            <label for="PneumoVaxEver">Pneumonia Vaccine Ever:</label>
+            <select name="PneumoVaxEver" id="PneumoVaxEver">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Tetanus Last 10 Years -->
+            <label for="TetanusLast10Tdap">Tetanus Shot Last 10 Years:</label>
+            <select name="TetanusLast10Tdap" id="TetanusLast10Tdap">
+                <option value="Yes, received Tdap">Yes, received Tdap</option>
+                <option value="Yes, received tetanus shot but not sure what type">Yes, received tetanus shot but not sure what type</option>
+                <option value="Yes, received tetanus shot, but not Tdap">Yes, received tetanus shot but not Tdap</option>
+                <option value="No, did not receive any tetanus shot in the past 10 years">No</option>
+            </select>
+
+            <!-- High Risk Last Year -->
+            <label for="HighRiskLastYear">High Risk Last Year:</label>
+            <select name="HighRiskLastYear" id="HighRiskLastYear">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <!-- Covid Positive -->
+            <label for="CovidPos">Covid Positive:</label>
+            <select name="CovidPos" id="CovidPos">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <button type="submit">Assess Heart Disease Risk</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,4 @@
+Prediction for instance 0: 0
+Feature 'AlcoholDrinkers' (value: 1.00) contributed -0.77 to the prediction
+Feature 'HeightInMeters' (value: 1.57) contributed -0.93 to the prediction
+Feature 'GeneralHealth' (value: 0.00) contributed -1.13 to the prediction

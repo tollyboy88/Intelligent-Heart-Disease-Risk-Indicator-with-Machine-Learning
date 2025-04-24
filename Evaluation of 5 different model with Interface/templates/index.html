@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Heart Disease Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Heart Disease Risk Assessment</h1>
+        <form action="/predict" method="post">
+            
+            <div class="form-group">
+                <label>Age Category:</label>
+                <select name="AgeCategory" class="form-control" required>
+                    <option value="18-24">18-24</option>
+                    <option value="25-29">25-29</option>
+                    <option value="30-34">30-34</option>
+                    <option value="35-39">35-39</option>
+                    <option value="40-44">40-44</option>
+                    <option value="45-49">45-49</option>
+                    <option value="50-54">50-54</option>
+                    <option value="55-59">55-59</option>
+                    <option value="60-64">60-64</option>
+                    <option value="65-69">65-69</option>
+                    <option value="70-74">70-74</option>
+                    <option value="75-79">75-79</option>
+                    <option value="80+">80+</option>
+                </select>
+            </div>
+
+            <!-- 1. Sex -->
+            <div class="form-group">
+                <label for="Sex">Sex:</label>
+                <select name="Sex" id="Sex" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+            
+            <!-- 2. GeneralHealth -->
+            <div class="form-group">
+                <label for="GeneralHealth">General Health:</label>
+                <select name="GeneralHealth" id="GeneralHealth" required>
+                    <option value="Excellent">Excellent</option>
+                    <option value="Very good">Very Good</option>
+                    <option value="Good">Good</option>
+                    <option value="Fair">Fair</option>
+                    <option value="Poor">Poor</option>
+                </select>
+            </div>
+            
+            <!-- 3. PhysicalHealthDays -->
+            <div class="form-group">
+                <label for="PhysicalHealthDays">Physical Health Days (past 30 days):</label>
+                <input type="number" name="PhysicalHealthDays" id="PhysicalHealthDays" step="1" min="0" max="30" required>
+            </div>
+            
+            <!-- 4. MentalHealthDays -->
+            <div class="form-group">
+                <label for="MentalHealthDays">Mental Health Days (past 30 days):</label>
+                <input type="number" name="MentalHealthDays" id="MentalHealthDays" step="1" min="0" max="30" required>
+            </div>
+            
+            <!-- 5. LastCheckupTime -->
+            <div class="form-group">
+                <label for="LastCheckupTime">Last Checkup Time:</label>
+                <select name="LastCheckupTime" id="LastCheckupTime" required>
+                    <option value="Within past year (anytime less than 12 months ago)">Within past year</option>
+                    <option value="Within past 2 years (1 year but less than 2 years ago)">Within past 2 years</option>
+                    <option value="Within past 5 years (2 years but less than 5 years ago)">Within past 5 years</option>
+                    <option value="5 or more years ago">More than 5 years</option>
+                </select>
+            </div>
+            
+            <!-- 6. PhysicalActivities -->
+            <div class="form-group">
+                <label>Physical Activities:</label>
+                <select name="PhysicalActivities" required>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            
+            <!-- 7. SleepHours -->
+            <div class="form-group">
+                <label for="SleepHours">Sleep Hours (daily):</label>
+                <input type="number" name="SleepHours" id="SleepHours" step="1" min="0" max="24" required>
+            </div>
+            
+            <!-- 8. RemovedTeeth -->
+            <div class="form-group">
+                <label for="RemovedTeeth">Removed Teeth:</label>
+                <select name="RemovedTeeth" id="RemovedTeeth" required>
+                    <option value="None of them">None</option>
+                    <option value="1 to 5">1-5</option>
+                    <option value="6 or more, but not all">6 or more</option>
+                    <option value="All">All</option>
+                </select>
+            </div>
+            
+            <!-- 9. HadAngina -->
+            <div class="form-group">
+                <label>Had Angina:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="HadAngina" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="HadAngina" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 10. HadStroke -->
+            <div class="form-group">
+                <label>Had Stroke:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="HadStroke" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="HadStroke" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 11. HadAsthma -->
+            <div class="form-group">
+                <label>Had Asthma:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="HadAsthma" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="HadAsthma" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 12. HadSkinCancer -->
+            <div class="form-group">
+                <label>Had Skin Cancer:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="HadSkinCancer" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="HadSkinCancer" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 13. HadCOPD -->
+            <div class="form-group">
+                <label>Had COPD:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="HadCOPD" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="HadCOPD" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 14. HadDepressiveDisorder -->
+            <div class="form-group">
+                <label>Had Depressive Disorder:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="HadDepressiveDisorder" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="HadDepressiveDisorder" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 15. HadKidneyDisease -->
+            <div class="form-group">
+                <label>Had Kidney Disease:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="HadKidneyDisease" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="HadKidneyDisease" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 16. HadArthritis -->
+            <div class="form-group">
+                <label>Had Arthritis:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="HadArthritis" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="HadArthritis" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 17. HadDiabetes -->
+            <div class="form-group">
+                <label>Had Diabetes:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="HadDiabetes" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="HadDiabetes" value="No, pre-diabetes or borderline diabetes"> No</label>
+                    <label><input type="radio" name="HadDiabetes" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 18. DeafOrHardOfHearing -->
+            <div class="form-group">
+                <label>Deaf Or Hard Of Hearing:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="DeafOrHardOfHearing" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="DeafOrHardOfHearing" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 19. BlindOrVisionDifficulty -->
+            <div class="form-group">
+                <label>Blind Or Vision Difficulty:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="BlindOrVisionDifficulty" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="BlindOrVisionDifficulty" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 20. DifficultyConcentrating -->
+            <div class="form-group">
+                <label>Difficulty Concentrating:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="DifficultyConcentrating" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="DifficultyConcentrating" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 21. DifficultyWalking -->
+            <div class="form-group">
+                <label>Difficulty Walking:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="DifficultyWalking" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="DifficultyWalking" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 22. DifficultyDressingBathing -->
+            <div class="form-group">
+                <label>Difficulty Dressing Bathing:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="DifficultyDressingBathing" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="DifficultyDressingBathing" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 23. DifficultyErrands -->
+            <div class="form-group">
+                <label>Difficulty Errands:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="DifficultyErrands" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="DifficultyErrands" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 24. SmokerStatus -->
+            <div class="form-group">
+                <label for="SmokerStatus">Smoker Status:</label>
+                <select name="SmokerStatus" id="SmokerStatus" required>
+                    <option value="Never smoke">Never</option>
+                    <option value="Former smoker">Former</option>
+                    <option value="Current smoker - now smokes some days">Current</option>
+                    <option value="Current smoker - now smokes every day">Current</option>
+                </select>
+            </div>
+            
+            <!-- 25. ECigaretteUsage -->
+            <div class="form-group">
+                <label for="ECigaretteUsage">E-Cigarette Usage:</label>
+                <select name="ECigaretteUsage" id="ECigaretteUsage" required>
+                    <option value="Never used e-cigarettes in my entire life">Never</option>
+                    <option value="Not at all (right now)">Former</option>
+                    <option value="Use them some days">Current Some Days</option>
+                    <option value="Use them every day">Current Every Days</option>
+                </select>
+            </div>
+            
+            <!-- 26. ChestScan -->
+            <div class="form-group">
+                <label>Chest Scan:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="ChestScan" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="ChestScan" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 27. RaceEthnicityCategory -->
+            <div class="form-group">
+                <label for="RaceEthnicityCategory">Race/Ethnicity Category:</label>
+                <select name="RaceEthnicityCategory" id="RaceEthnicityCategory" required>
+                    <option value="White only, Non-Hispanic">White</option>
+                    <option value="Black only, Non-Hispanic">Black</option>
+                    <option value="Multiracial, Non-Hispanic">Asian</option>
+                    <option value="Hispanic">Hispanic</option>
+                    <option value="Other race only, Non-Hispanic">Other</option>
+                </select>
+            </div>
+            
+            <!-- 28. HeightInMeters -->
+            <div class="form-group">
+                <label for="HeightInMeters">Height (meters):</label>
+                <input type="number" name="HeightInMeters" id="HeightInMeters" step="0.01" required>
+            </div>
+            
+            <!-- 29. WeightInKilograms -->
+            <div class="form-group">
+                <label for="WeightInKilograms">Weight (kilograms):</label>
+                <input type="number" name="WeightInKilograms" id="WeightInKilograms" step="0.1" required>
+            </div>
+            
+            <!-- 30. BMI -->
+            <div class="form-group">
+                <label for="BMI">BMI:</label>
+                <input type="number" name="BMI" id="BMI" step="0.1" required>
+            </div>
+            
+            <!-- 31. AlcoholDrinkers -->
+            <div class="form-group">
+                <label for="AlcoholDrinkers">Alcohol Drinkers:</label>
+                <select name="AlcoholDrinkers" id="AlcoholDrinkers" required>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            
+            <!-- 32. HIVTesting -->
+            <div class="form-group">
+                <label>HIV Testing:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="HIVTesting" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="HIVTesting" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 33. FluVaxLast12 -->
+            <div class="form-group">
+                <label>Flu Vaccine (last 12 months):</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="FluVaxLast12" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="FluVaxLast12" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 34. PneumoVaxEver -->
+            <div class="form-group">
+                <label>Pneumo Vaccine Ever:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="PneumoVaxEver" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="PneumoVaxEver" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 35. TetanusLast10Tdap -->
+            <div class="form-group">
+                <label>Tetanus Last 10 Tdap:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="TetanusLast10Tdap" value="Yes, received Tdap" required> Yes</label>
+                    <label><input type="radio" name="TetanusLast10Tdap" value="No, did not receive any tetanus shot in the past 10 years"> No</label>
+                    <label><input type="radio" name="TetanusLast10Tdap" value="Yes, received tetanus shot but not sure what type"> Yes Unaware Type</label>
+                    <label><input type="radio" name="TetanusLast10Tdap" value="Yes, received tetanus shot, but not Tdap"> Yes But Not Tdap</label>
+                </div>
+            </div>
+            
+            <!-- 36. HighRiskLastYear -->
+            <div class="form-group">
+                <label>High Risk Last Year:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="HighRiskLastYear" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="HighRiskLastYear" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 37. CovidPos -->
+            <div class="form-group">
+                <label>Covid Positive:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="CovidPos" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="CovidPos" value="No"> No</label>
+                </div>
+            </div>
+            
+            <!-- 38. Age -->
+            <div class="form-group">
+                <label for="Age">Age:</label>
+                <input type="number" name="Age" id="Age" step="1" required>
+            </div>
+            
+            <button type="submit">Assess Heart Disease Risk</button>
+        </form>
+    </div>
+</body>
+</html>
